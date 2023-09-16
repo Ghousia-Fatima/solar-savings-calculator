@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solar Panel Savings Calculator</title>
+  <!-- Add the Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Solar Panel Savings Calculator</h1>
+    <hr/>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="electricity-rate">Electricity rate ($/kWh):</label>
+              <input type="number" class="form-control" id="electricity-rate" placeholder="0.12" step="0.01">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="electricity-usage">Electricity usage (kWh/month):</label>
+              <input type="number" class="form-control" id="electricity-usage" placeholder="800">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="solar-panel-cost">Solar panel cost ($):</label>
+              <input type="number" class="form-control" id="solar-panel-cost" placeholder="15000">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="solar-panel-efficiency">Solar panel efficiency (%):</label>
+              <input type="number" class="form-control" id="solar-panel-efficiency" placeholder="22">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="solar-panel-lifespan">Solar panel lifespan (years):</label>
+              <input type="number" class="form-control" id="solar-panel-lifespan" placeholder="25">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-text">Total savings: $<span id="total-savings">0.00</span></p>
+            <p class="card-text">Payback period: <span id="payback-period">0</span> years</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add the Bootstrap JS and jQuery scripts (optional) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    const electricityRateInput = document.getElementById('electricity-rate');
+    const electricityUsageInput = document.getElementById('electricity-usage');
+    const solarPanelCostInput = document.getElementById('solar-panel-cost');
+    const solarPanelEfficiencyInput = document.getElementById('solar-panel-efficiency');
+    const solarPanelLifespanInput = document.getElementById('solar-panel-lifespan');
+    const totalSavingsSpan = document.getElementById('total-savings');
+    const paybackPeriodSpan = document.getElementById('payback-period');
+
+    const calculateSavings = () => {
+      const electricityRate = parseFloat(electricityRateInput.value) || 0.12;
+      const electricityUsage = parseFloat(electricityUsageInput.value) || 800;
+      const solarPanelCost = parseFloat(solarPanelCostInput.value) || 15000;
+      const solarPanelEfficiency = parseFloat(solarPanelEfficiencyInput.value) || 22;
+      const solarPanelLifespan = parseFloat(solarPanelLifespanInput.value) || 25;
+
+      // Calculate total savings without using Math.abs()
+      const totalSavings = electricityRate * electricityUsage * (solarPanelEfficiency / 100) * solarPanelLifespan - solarPanelCost;
+      const paybackPeriod = totalSavings > 0 ? solarPanelCost / totalSavings : 0;
+
+      totalSavingsSpan.textContent = totalSavings.toFixed(2);
+      paybackPeriodSpan.textContent = paybackPeriod.toFixed(2);
+    };
+
+    // Add event listeners to input fields
+    electricityRateInput.addEventListener('input', calculateSavings);
+    electricityUsageInput.addEventListener('input', calculateSavings);
+    solarPanelCostInput.addEventListener('input', calculateSavings);
+    solarPanelEfficiencyInput.addEventListener('input', calculateSavings);
+    solarPanelLifespanInput.addEventListener('input', calculateSavings);
+
+    // Initial calculation
+    calculateSavings();
+  </script>
+</body>
+</html>
